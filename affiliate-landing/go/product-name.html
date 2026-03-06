@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>正在跳转…</title>
+  <!-- 替换下方脚本中的 AFFILIATE_URL 为你的真实联盟链接后，本页会在执行埋点后自动跳转 -->
+  <script>
+    (function () {
+      // ① 替换为你的真实联盟链接（仅改这一处即可，meta 刷新会同步）
+      var AFFILIATE_URL = 'https://example.com/affiliate-link';
+      var PRODUCT_NAME = 'product-name';
+      var params = new URLSearchParams(window.location.search);
+      var source = params.get('from') || 'direct';
+      var meta = document.querySelector('meta[http-equiv="refresh"]');
+      if (meta) meta.setAttribute('content', '3;url=' + AFFILIATE_URL);
+      function doRedirect() {
+        if (typeof window.trackAffiliateClick === 'function') {
+          window.trackAffiliateClick(PRODUCT_NAME, source);
+        }
+        window.location.replace(AFFILIATE_URL);
+      }
+      var s = document.createElement('script');
+      s.src = '../script.js';
+      s.onload = doRedirect;
+      s.onerror = doRedirect;
+      document.head.appendChild(s);
+    })();
+  </script>
+  <meta http-equiv="refresh" content="3;url=https://example.com/affiliate-link">
+</head>
+<body>
+  <p style="font-family: sans-serif; padding: 2rem; text-align: center;">正在跳转，请稍候…</p>
+</body>
+</html>
